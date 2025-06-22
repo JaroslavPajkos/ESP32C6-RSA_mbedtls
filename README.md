@@ -1,6 +1,6 @@
 # RSA Digital Signature Time Comparison
 
-This project implements an RSA digital signature application using the **mbedtls** library on an ESP32-C6 microcontroller, which features a RISC-V processor with hardware acceleration for RSA up to 3072 bits. It compares the performance (in CPU cycles) of RSA signature generation and verification for different key sizes (2048, 3072, and 4096 bits) using PKCS#1 v1.5 and PSS padding schemes. For 4096-bit signatures, the watchdog timer must be disabled due to the longer execution time. The project includes test certificates and keys for cryptographic operations.
+This project implements an RSA digital signature application using the **mbedtls** library on an ESP32-C6 microcontroller, featuring a RISC-V processor with hardware acceleration for RSA up to 3072 bits. It compares the performance (in CPU cycles) of RSA signature generation and verification for different key sizes (2048, 3072, and 4096 bits) using PKCS#1 v1.5 and PSS padding schemes. For 4096-bit signatures, the watchdog timer must be disabled due to longer execution times. The project includes test certificates and keys for cryptographic operations. **Note**: The stack size must be set to 80,000 bytes to accommodate the memory requirements of the RSA operations.
 
 ## Project Overview
 
@@ -50,7 +50,9 @@ This project implements an RSA digital signature application using the **mbedtls
    idf.py set-target esp32c6
    idf.py menuconfig
    ```
-   Ensure the mbedtls component is enabled (included by default in ESP-IDF) and disable the watchdog timer if testing 4096-bit keys.
+   - Ensure the mbedtls component is enabled (included by default in ESP-IDF).
+   - Disable the watchdog timer if testing 4096-bit keys.
+   - Set the stack size to 80,000 bytes in the configuration to support RSA operations (under `Component config > FreeRTOS > Tasks and Stack Sizes`).
 
 4. **Build the Project**:
    Compile the project using:
@@ -86,7 +88,7 @@ This project implements an RSA digital signature application using the **mbedtls
      - Signatures (PKCS#1 v1.5 and PSS)
      - Verification times in CPU cycles
 - The test certificates in `certs_test.h` are not used in the main program but are included for potential cryptographic testing.
-- **Note**: For 4096-bit operations, the watchdog timer is disabled to accommodate the extended execution time.
+- **Note**: For 4096-bit operations, the watchdog timer is disabled to accommodate the extended execution time. Ensure the stack size is set to 80,000 bytes to prevent stack overflow.
 
 ### Sample Output
 ```
@@ -140,6 +142,7 @@ The following table presents measured execution times (in milliseconds) for RSA 
 
 - **Performance Measurement**: The `start()` and `end()` functions use RISC-V cycle counters to measure execution time. The reported cycles are divided by 160 for normalization (specific to the ESP32-C6's clock configuration).
 - **Hardware Acceleration**: The ESP32-C6's RISC-V processor provides hardware acceleration for RSA operations up to 3072 bits. For 4096-bit keys, acceleration is not fully utilized, requiring longer execution times and watchdog timer disablement.
+- **Stack Size**: The stack size must be set to 80,000 bytes in the ESP-IDF configuration to support the memory demands of RSA operations, especially for 4096-bit keys.
 - **Certificates**: The `certs_test.h` file includes test certificates and keys from wolfSSL, which can be used for additional cryptographic experiments.
 - **Error Handling**: The program includes robust error handling for mbedtls operations, with detailed error messages printed to the console.
 - **Limitations**: The project is optimized for ESP32-C6 and may require modifications for other platforms.
