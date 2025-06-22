@@ -37,8 +37,8 @@ This project implements an RSA digital signature application using the **mbedtls
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/rsa-time-comparison.git
-   cd rsa-time-comparison
+   git clone https://github.com/JaroslavPajkos/ESP32C6-RSA_mbedtls
+   cd ESP32C6-RSA_mbedtls\mbedtls_rsa
    ```
 
 2. **Set Up ESP-IDF**:
