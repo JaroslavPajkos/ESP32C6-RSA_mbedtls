@@ -75,7 +75,7 @@ This project implements an RSA digital signature application using the **mbedtls
 - The program runs automatically upon flashing to the ESP32.
 - It performs the following steps:
   1. Initializes mbedtls contexts and seeds the random number generator.
-  2. Computes the SHA-256 hash of the test message: `"Testovaci text na zasifrovanie"`.
+  2. Computes the SHA-256 hash of the test message: `"OPEN MESSAGE FOR ENCRYPTION"`.
   3. For each key size (2048, 3072 bits):
      - Generates an RSA key pair.
      - Signs the message hash using PKCS#1 v1.5 and PSS padding.
